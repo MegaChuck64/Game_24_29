@@ -11,6 +11,7 @@ namespace Engine
         private InputManager _inputManager;
         public Color BackgroundColor { get; set; } = Color.CornflowerBlue;
         public Vector2 CenterScreen => new(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+        public Vector2 WindowSize => new(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
         public BaseGame()
         {
             _graphics = new GraphicsDeviceManager(this);

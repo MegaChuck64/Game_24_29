@@ -17,7 +17,7 @@ public class MainGame : BaseGame
     {
         var font = Content.Load<SpriteFont>("Fonts/Consolas22");
         sceneManager.AddScene("menu", BuildMenuScene(sceneManager, font));
-        sceneManager.AddScene("game", BuildGameScene(font));
+        sceneManager.AddScene("game", BuildGameScene(font, sceneManager));
 
         sceneManager.LoadScene("menu");
         sceneManager.StartScene();
@@ -66,17 +66,18 @@ public class MainGame : BaseGame
         return go;
     }
 
-    private Scene BuildGameScene(SpriteFont font)
+    private Scene BuildGameScene(SpriteFont font, SceneManager sceneManager)
     {
         var gameScene = new Scene();
         var title = new GameObject("title card", this, gameScene);
-        title.Components.Add(new TextComponent(title, "game 24/29 v0.01", font, 0.5f, TextComponent.Alignment.Left));
-        title.Components.Add(new PositionComponent(title) { Position = new Vector2(2, 2) });
+        var versionHeader = "game 24/29 v0.01";
+        title.Components.Add(new TextComponent(title, versionHeader, font, 0.5f, TextComponent.Alignment.Left));
+        title.Components.Add(new PositionComponent(title) { Position = new Vector2(WindowSize.X - 2 - (font.MeasureString(versionHeader).X /2), 2) });
         title.Components.Add(new TintComponent(title) { Tint = Color.LimeGreen });
         gameScene.GameObjects.Add(title);
 
         var terminal = new GameObject("terminal", this, gameScene);
-        terminal.Components.Add(new TerminalComponent(terminal, font));
+        terminal.Components.Add(new TerminalComponent(terminal, font, sceneManager));
         terminal.Components.Add(new PositionComponent(terminal) { Position = new Vector2(2, CenterScreen.Y * 2 - font.MeasureString("A").Y * 2 - 2) });
         terminal.Components.Add(new TintComponent(terminal) { Tint = Color.LimeGreen });
         terminal.Components.Add(new TerminalInputComponent(terminal, font, new Vector2(0, font.MeasureString("A").Y + 2)));
